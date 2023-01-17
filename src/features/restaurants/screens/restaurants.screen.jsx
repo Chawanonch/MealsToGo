@@ -4,6 +4,7 @@ import { Searchbar } from "react-native-paper";
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
 import styled from "styled-components/native";
 
+
 const SafeArea = styled.SafeAreaView`
   flex: 1;
   margin-top: ${StatusBar.currentHeight}px;
@@ -39,6 +40,3 @@ export const RestaurantsScreen = () => {
     </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-});
