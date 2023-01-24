@@ -1,25 +1,20 @@
 import { useState } from "react";
-import { StatusBar, StyleSheet, SafeAreaView, View } from "react-native";
+import { StatusBar, StyleSheet, SafeAreaView, View,FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
 import styled from "styled-components/native";
+import { Spacer } from "../../../components/spacer/spacer.component";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
-
-const SafeArea = styled.SafeAreaView`
-  flex: 1;
-  margin-top: ${StatusBar.currentHeight}px;
+const SearchContainer = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+  background-color: #72f75e;
 `;
-
-const Search = styled.View`
-  padding: 16px;
-  background-color: #5281ee;
-`;
-
-const List = styled.View`
-  flex: 1;
-  padding: 16px;
-  background-color: #90d4d6;
-`;
+const RestaurantList = styled(FlatList).attrs({
+  contentContainerStyle: {
+    padding: 16,
+  },
+})``;
 
 export const RestaurantsScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,16 +22,38 @@ export const RestaurantsScreen = () => {
   const onChangeSearch = (query) => setSearchQuery(query);
   return (
     <SafeArea>
-      <Search>
+      <SearchContainer>
         <Searchbar
           placeholder="Search"
           onChangeText={onChangeSearch}
           value={searchQuery}
         />
-      </Search>
-      <List>
-        <RestaurantInfoCard />
-      </List>
+      </SearchContainer>
+      <RestaurantList
+        data={[
+          { name: 1 },
+          { name: 2 },
+          { name: 3 },
+          { name: 4 },
+          { name: 5 },
+          { name: 6 },
+          { name: 7 },
+          { name: 8 },
+          { name: 9 },
+          { name: 10 },
+          { name: 11 },
+          { name: 12 },
+          { name: 13 },
+          { name: 14 },
+        ]}
+        renderItem={() => (
+          <Spacer position="bottom" size="large">
+            <RestaurantInfoCard />
+          </Spacer>
+        )}
+        keyExtractor={(item) => item.name}
+      />
+
     </SafeArea>
   );
 };
