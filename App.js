@@ -1,5 +1,5 @@
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./src/infrastructure/theme";
 import {
@@ -11,8 +11,29 @@ import { RestaurantsContextProvider } from "./src/services/restaurants/restauran
 import { LocationContextProvider } from "./src/services/location/location.context";
 import { Navigation } from "./src/infrastructure/navigation/index";
 import { FavouritesContextProvider } from "./src/services/favourites/favourites.context";
+import { firebase } from "./firebaseConfig";
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      firebase.auth
+        .signInWithEmailAndPassword(
+          firebase.getAuth,
+          "c@c.com",
+          "123456"
+        )
+        .then((user) => {
+          setIsAuthenticated(true);
+        })
+        .catch((error) => {
+          setIsAuthenticated(false);
+          console.log(error);
+        });
+    }, 2000);
+  }, []);
+
   let [ubuntuLoaded] = useUbuntu({
     Ubuntu_400Regular,
   });
@@ -24,6 +45,8 @@ export default function App() {
   if (!ubuntuLoaded || !lotoLoaded) {
     return null;
   }
+
+  if (!isAuthenticated) return null;
 
   return (
     <>
